@@ -123,7 +123,7 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
         optimizer.zero_grad()
         loss_s.backward(retain_graph=True)
         loss_t.backward(retain_graph=True)
-        loss_gt.backward(retain_graph=True)
+        loss_gt.backward()
 
         optimizer.step()
 
