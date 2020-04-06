@@ -50,12 +50,13 @@ def distortion(img, degree=0.2):
 
 
 def main():
-    cartoon_path = r'C:\Users\Tiger\Desktop\cartoon'
-    texture_path = r'C:\Users\Tiger\Desktop\texture_f'
-    gt_path = r'C:\Users\Tiger\Desktop\GT'
-    t_path = r'C:\Users\Tiger\Desktop\T'
-    s_path = r'C:\Users\Tiger\Desktop\S'
-    input_path = r'C:\Users\Tiger\Desktop\Input'
+    cartoon_path = '/SSD64/Smooth/train/cartoon'
+    texture_path = '/SSD64/Smooth/train/texture_f'
+    save_path = '/SSD64/Smooth/train/GEN'
+    gt_path = save_path+'/'+'GT'
+    t_path = save_path+'/'+'T'
+    s_path = save_path+'/'+'S'
+    input_path = save_path+'/'+'Input'
 
     if not os.path.isdir(gt_path):
         os.mkdir(gt_path)
@@ -71,8 +72,8 @@ def main():
 
     for cartoon_name in tqdm.tqdm(os.listdir(cartoon_path)):
         for texture_name in os.listdir(texture_path):
-            cartoon_image_path = cartoon_path+'\\'+cartoon_name
-            texture_image_path = texture_path+'\\'+texture_name
+            cartoon_image_path = cartoon_path+'/'+cartoon_name
+            texture_image_path = texture_path+'/'+texture_name
 
             cartoon_image = Image.open(cartoon_image_path)
             cartoon_image = np.asanyarray(cartoon_image)
@@ -85,17 +86,17 @@ def main():
             merged_image = Image.fromarray(merged_image)
 
             merge_name = cartoon_name.split('.')[0]+'_'+texture_name.split('.')[0]+'.png'
-            merged_image.save(input_path+'\\'+merge_name)
+            merged_image.save(input_path+'/'+merge_name)
             t = Image.fromarray(t)
             t = t.convert('L')
-            t.save(t_path+'\\'+merge_name)
+            t.save(t_path+'/'+merge_name)
 
             cartoon_image = Image.fromarray(cartoon_image)
-            cartoon_image.save(gt_path+'\\'+merge_name)
+            cartoon_image.save(gt_path+'/'+merge_name)
             cartoon_image = np.asanyarray(cartoon_image.convert('L'))
             _, s = cv2.threshold(cartoon_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
             s = Image.fromarray(s)
-            s.save(s_path+'\\'+merge_name)
+            s.save(s_path+'/'+merge_name)
 
     a = 0
 
