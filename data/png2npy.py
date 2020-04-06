@@ -5,9 +5,11 @@ import scipy.misc as misc
 import os
 
 if __name__ == "__main__":
-    file_path = '/SSD64/Smooth/train'
-    file_list = [file_path + '/LR',
-                 file_path + '/HR']
+    file_path = r'C:\Users\Tiger\Desktop\TrainData'
+    file_list = [file_path + '\\Input',
+                 file_path + '\\S',
+                 file_path + '\\T',
+                 file_path + '\\GT']
 
     for file_name in file_list:
         new_file_name = file_name+'_npy'

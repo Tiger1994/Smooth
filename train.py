@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 import json
+from model.TSAFN import Combination
 
 setting_file = "setting/opt.json"
 cuda = True
@@ -44,13 +45,15 @@ def main():
     cudnn.benchmark = True
 
     print("===> Loading datasets")
-    file_path = {'LR': opt["train_file_path"] + '/LR_npy',
-                 'HR': opt["train_file_path"] + '/HR_npy'}
+    file_path = {'Input': opt["train_file_path"] + '/Input_npy',
+                 'S': opt["train_file_path"] + '/S_npy',
+                 'T': opt["train_file_path"] + '/T_npy',
+                 'GT': opt["train_file_path"] + '/GT_npy'}
     train_set = DatasetFromFolder(file_path)
     training_data_loader = DataLoader(dataset=train_set, num_workers=opt["threads"], batch_size=opt["batchSize"], shuffle=True)
 
     print("===> Building model")
-    model = Net()
+    model = Combination(pretrained='false')
 
     print('Generator parameters: ', sum(param.numel() for param in model.parameters()))
     criterion = L1_Charbonnier_loss()
@@ -102,21 +105,27 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
 
     for iteration, batch in enumerate(train_bar):
         avg_psnr_predicted = 0.0
-        input, HR = Variable(batch[0], requires_grad=False), Variable(batch[1], requires_grad=False)
+        input, S, T, GT = Variable(batch[0], requires_grad=False), Variable(batch[1], requires_grad=False)
 
         if cuda:
             input = input.cuda()
-            HR = HR.cuda()
+            S = S.cuda()
+            T = T.cuda()
+            GT = GT.cuda()
 
-        SR = model(input)
+        s_o, t_o, gt_o = model(input)
 
-        loss = criterion(SR, HR)
+        loss_s = criterion(S, s_o)
+        loss_t = criterion(T, t_o)
+        loss_gt = criterion(GT, gt_o)
+        loss = loss_gt.item()
 
         optimizer.zero_grad()
-        loss.backward(retain_graph=True)
+        loss_s.backward(retain_graph=True)
+        loss_t.backward(retain_graph=True)
+        loss_gt.backward(retain_graph=True)
 
         optimizer.step()
-
 
         train_bar.set_description(desc='%.2f' % (loss))
         if best_loss > loss:
