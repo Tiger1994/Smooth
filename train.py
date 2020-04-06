@@ -105,8 +105,8 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
 
     for iteration, batch in enumerate(train_bar):
         avg_psnr_predicted = 0.0
-        input, S, T, GT = Variable(batch[0], requires_grad=False), Variable(batch[1], requires_grad=False)
-
+        input, S, T, GT = Variable(batch[0], requires_grad=False), Variable(batch[1], requires_grad=False), \
+                          Variable(batch[2], requires_grad=False), Variable(batch[3], requires_grad=False)
         if cuda:
             input = input.cuda()
             S = S.cuda()
