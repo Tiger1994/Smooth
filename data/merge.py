@@ -69,6 +69,7 @@ def main():
 
     low = 0.75
     high = 1.
+    resize_low = 0.5
 
     for cartoon_name in tqdm.tqdm(os.listdir(cartoon_path)):
         for texture_name in os.listdir(texture_path):
@@ -81,6 +82,9 @@ def main():
             texture_image = np.asanyarray(texture_image)
 
             _, texture_image = cv2.threshold(texture_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+            r_size = random.randint(int(resize_low*texture_image.shape[0]), texture_image.shape[0])
+            texture_image = cv2.resize(texture_image, [r_size, r_size])
 
             merged_image, t = merge(cartoon_image, texture_image, low, high)
             merged_image = Image.fromarray(merged_image)

@@ -129,10 +129,11 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
 
         train_bar.set_description(desc='%.2f' % (loss))
         if best_loss > loss:
-            save_checkpoint(model, epoch-1)
+            save_checkpoint(model, 9999)
             best_loss = loss
     train_bar.close()
     print("Epoch={}, lr={}, best_psnr={:.2f}".format(epoch, lr, best_loss))
+    save_checkpoint(model, epoch-1)
     return loss
 
 
