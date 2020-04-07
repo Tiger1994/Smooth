@@ -136,7 +136,7 @@ class TPN(nn.Module):
         return self.index
 
     def forward(self, x):
-        N, C, h, w = x.size()
+        _, _, h, w = x.size()
 
         size1 = x
         size2 = F.interpolate(x, size=(h // 2, w // 2))

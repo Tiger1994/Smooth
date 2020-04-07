@@ -2,7 +2,7 @@
     "?batchSize": "training batch size",
     "batchSize": 64,
     "?nEpocks": "number of epochs to train for",
-    "nEpochs": 150,
+    "nEpochs": 100,
     "?lr": "Learning Rate. Default=1e-4",
     "lr": 1e-4,
     "?step": "Sets the learning rate to the initial LR decayed by momentum every n epochs, Default: n=10",
@@ -19,7 +19,7 @@
     "pretrained": "",
 
     "?train_file_path": "path to training data, including LR HR_2X HR_4X",
-    "train_file_path": "/SSD64/Smooth/train",
+    "train_file_path": "/SSD64/Smooth/train/TrainData",
     "?eval_file": "evaluation images",
     "eval_file": "/home/meng/lihu/dataset/Set5"
 }

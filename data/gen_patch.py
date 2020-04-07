@@ -42,8 +42,8 @@ def main():
 
         row, col = gt.shape[0], gt.shape[1]
 
-        for i in range(0, row, stride):
-            for j in range(0, col, stride):
+        for i in range(0, row-stride, stride):
+            for j in range(0, col-stride, stride):
                 patch_name = '{}.png'.format(count)
                 count = count + 1
                 gt_patch = Image.fromarray(gt[i:i+patch_size, j:j+patch_size, :])

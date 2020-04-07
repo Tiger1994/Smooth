@@ -53,7 +53,7 @@ def main():
     training_data_loader = DataLoader(dataset=train_set, num_workers=opt["threads"], batch_size=opt["batchSize"], shuffle=True)
 
     print("===> Building model")
-    model = Combination(pretrained='false')
+    model = Combination(pretrained=False)
 
     print('Generator parameters: ', sum(param.numel() for param in model.parameters()))
     criterion = L1_Charbonnier_loss()
@@ -115,7 +115,7 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
 
         s_o, t_o, gt_o = model(input)
 
-        loss_s = criterion(S, s_o)
+        loss_s = criterion(S, s_o[-1])
         loss_t = criterion(T, t_o)
         loss_gt = criterion(GT, gt_o)
         loss = loss_gt.item()
@@ -133,7 +133,7 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
             best_loss = loss
     train_bar.close()
     print("Epoch={}, lr={}, best_psnr={:.2f}".format(epoch, lr, best_loss))
-    return avg_psnr_predicted / len(image_list)
+    return loss
 
 
 def save_checkpoint(model, epoch):

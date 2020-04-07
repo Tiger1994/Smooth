@@ -18,23 +18,25 @@ class DatasetFromFolder(data.Dataset):
                len(self.T_paths) == len(self.GT_paths))
 
     def __getitem__(self, item):
-        # lr = read_img(self.LR_paths[item])
-        # x2 = read_img(self.x2_paths[item])
-        # x4 = read_img(self.x4_paths[item])
         input = np.load(self.Input_paths[item])
         s = np.load(self.S_paths[item])
         t = np.load(self.T_paths[item])
         gt = np.load(self.GT_paths[item])
-        input = input[np.newaxis, :]
+        # input = input[np.newaxis, :]
         s = s[np.newaxis, :]
         t = t[np.newaxis, :]
-        gt = gt[np.newaxis, :]
+        # gt = gt[np.newaxis, :]
+        # index = [2,1,0]
+        input = np.transpose(input, (2,0,1))
+        # s = np.transpose(s, (2,0,1))
+        # t = np.transpose(t, (2,0,1))
+        gt = np.transpose(gt, (2,0,1))
 
         return torch.from_numpy(input).float(), torch.from_numpy(s).float(), \
                torch.from_numpy(t).float(), torch.from_numpy(gt).float()
 
     def __len__(self):
-        return len(self.input_paths)
+        return len(self.Input_paths)
 
 
 def get_image_path(path):
