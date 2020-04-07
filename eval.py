@@ -42,7 +42,7 @@ for dataset in datasets:
         im_input = np.transpose(im_input, [2, 0, 1])
         im_input = im_input[np.newaxis, :]
 
-        im_input = Variable(torch.from_numpy(im_input).float())
+        im_input = torch.from_numpy(im_input).float()/255.
 
         if cuda:
             model = model.cuda()
