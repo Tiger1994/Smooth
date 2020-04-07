@@ -32,8 +32,8 @@ class DatasetFromFolder(data.Dataset):
         # t = np.transpose(t, (2,0,1))
         gt = np.transpose(gt, (2,0,1))
 
-        return torch.from_numpy(input).float(), torch.from_numpy(s).float(), \
-               torch.from_numpy(t).float(), torch.from_numpy(gt).float()
+        return torch.from_numpy(input).float() / 255., torch.from_numpy(s).float() / 255., \
+               torch.from_numpy(t).float() / 255., torch.from_numpy(gt).float() / 255.
 
     def __len__(self):
         return len(self.Input_paths)
