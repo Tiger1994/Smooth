@@ -114,13 +114,11 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
             GT = GT.cuda()
 
         s_o, t_o, gt_o = model(input)
+        optimizer.zero_grad()
 
         if epoch <= 100:
             loss_s = criterion(S, s_o[-1])
             loss_t = criterion(T, t_o)
-
-
-            optimizer.zero_grad()
             loss_s.backward()
             loss_t.backward()
             loss = loss_s.item()+loss_t.item()
@@ -129,6 +127,7 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
             loss_t = criterion(T, t_o)
             loss_gt = criterion(GT, gt_o)
             loss_all = 0.6*loss_gt+0.2*(loss_s+loss_t)
+            loss_all.backward()
             loss = loss_all.item()
 
         optimizer.step()
