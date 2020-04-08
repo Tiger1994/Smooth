@@ -115,15 +115,21 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
 
         s_o, t_o, gt_o = model(input)
 
-        loss_s = criterion(S, s_o[-1])
-        loss_t = criterion(T, t_o)
-        loss_gt = criterion(GT, gt_o)
-        loss = loss_gt.item()
+        if epoch <= 100:
+            loss_s = criterion(S, s_o[-1])
+            loss_t = criterion(T, t_o)
 
-        optimizer.zero_grad()
-        loss_s.backward(retain_graph=True)
-        loss_t.backward(retain_graph=True)
-        loss_gt.backward()
+
+            optimizer.zero_grad()
+            loss_s.backward()
+            loss_t.backward()
+            loss = loss_s.item()+loss_t.item()
+        else:
+            loss_s = criterion(S, s_o[-1])
+            loss_t = criterion(T, t_o)
+            loss_gt = criterion(GT, gt_o)
+            loss_all = 0.6*loss_gt+0.2*(loss_s+loss_t)
+            loss = loss_all.item()
 
         optimizer.step()
 

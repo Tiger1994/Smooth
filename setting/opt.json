@@ -2,7 +2,7 @@
     "?batchSize": "training batch size",
     "batchSize": 64,
     "?nEpocks": "number of epochs to train for",
-    "nEpochs": 100,
+    "nEpochs": 200,
     "?lr": "Learning Rate. Default=1e-4",
     "lr": 1e-4,
     "?step": "Sets the learning rate to the initial LR decayed by momentum every n epochs, Default: n=10",
