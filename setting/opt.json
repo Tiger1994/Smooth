@@ -6,7 +6,7 @@
     "?lr": "Learning Rate. Default=1e-4",
     "lr": 1e-4,
     "?step": "Sets the learning rate to the initial LR decayed by momentum every n epochs, Default: n=10",
-    "step": 100,
+    "step": 200,
     "?start_epoch": "Manual epoch number (useful on restarts)",
     "start_epoch": 1,
     "?threads": "Number of threads for data loader to use, Default: 1",
@@ -14,7 +14,7 @@
     "?momentum": "Momentum, Default: 0.5",
     "momentum": 0.5,
     "?wight-decay": "weight decay, Default: 1e-4",
-    "weight-decay": 1e-4,
+    "weight-decay": 5e-5,
     "?pretrained": "path to pretrained model (default: none)",
     "pretrained": "",
 
