@@ -16,11 +16,9 @@ if __name__ == "__main__":
         img_paths = get_image_path(file_name)
         if not os.path.exists(new_file_name):
             os.makedirs(new_file_name)
-            path_bar = tqdm(img_paths)
-            for v in path_bar:
-                img = misc.imread(v)  #imageio.imread
-                ext = os.path.splitext(os.path.basename(v))[-1]
-                name_sep = os.path.basename(v.replace(ext, '.npy'))
-                np.save(os.path.join(new_file_name, name_sep), img)
-        else:
-            print("Binary file already exists, please confirm it in [%s]")
+        path_bar = tqdm(img_paths)
+        for v in path_bar:
+            img = misc.imread(v)  #imageio.imread
+            ext = os.path.splitext(os.path.basename(v))[-1]
+            name_sep = os.path.basename(v.replace(ext, '.npy'))
+            np.save(os.path.join(new_file_name, name_sep), img)

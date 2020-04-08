@@ -11,7 +11,7 @@ import tqdm
 def merge(cartoon, texture, low, high):
     merge = copy.deepcopy(cartoon)
     t = np.zeros((merge.shape[0], merge.shape[1]))
-    avg = int(np.mean(np.mean(cartoon))) * (random.random()+0.4)
+    avg = int(np.mean(np.mean(cartoon))) * (random.random()*1.2+0.2)
     for i in range(cartoon.shape[0]):
         for j in range(cartoon.shape[1]):
             u = i%texture.shape[0]
@@ -69,7 +69,7 @@ def main():
 
     low = 0.75
     high = 1.
-    resize_low = 0.5
+    resize_low = 0.3
 
     for cartoon_name in tqdm.tqdm(os.listdir(cartoon_path)):
         for texture_name in os.listdir(texture_path):
@@ -83,8 +83,19 @@ def main():
 
             _, texture_image = cv2.threshold(texture_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
+            # resize texture image
             r_size = random.randint(int(resize_low*texture_image.shape[0]), texture_image.shape[0])
-            texture_image = cv2.resize(texture_image, [r_size, r_size])
+            texture_image = cv2.resize(texture_image, (r_size, r_size))
+
+            # flip texture image
+            flag = random.randint(0, 1)
+            texture_image = np.flip(texture_image, flag)
+
+            # rotate texture image
+            flag = random.randint(0, 3)
+            rows, cols = texture_image.shape
+            M = cv2.getRotationMatrix2D(((cols - 1) / 2.0, (rows - 1) / 2.0), 90*flag, 1)
+            texture_image = cv2.warpAffine(texture_image, M, (cols, rows))
 
             merged_image, t = merge(cartoon_image, texture_image, low, high)
             merged_image = Image.fromarray(merged_image)
