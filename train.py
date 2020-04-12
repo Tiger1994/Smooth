@@ -45,7 +45,7 @@ def main():
 
     print("===> Loading datasets")
     file_path = {'In': opt["train_file_path"] + '/In_npy',
-                 'Out': opt["train_file_path"] + '/Out_npy'}
+                 'GT': opt["train_file_path"] + '/GT_npy'}
     train_set = DatasetFromFolder(file_path)
     training_data_loader = DataLoader(dataset=train_set, num_workers=opt["threads"], batch_size=opt["batchSize"],
                                       shuffle=True)

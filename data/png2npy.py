@@ -5,8 +5,8 @@ import scipy.misc as misc
 import os
 
 if __name__ == "__main__":
-    file_path = '/media/server/80SSD/LihuaJian/train'
-    file_list = [file_path + '/Input',
+    file_path = '/media/server/80SSD/LihuaJian/train/TrainData'
+    file_list = [file_path + '/In',
                  file_path + '/GT']
 
     for file_name in file_list:

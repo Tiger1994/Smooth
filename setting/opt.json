@@ -19,7 +19,7 @@
     "pretrained": "",
 
     "?train_file_path": "path to training data, including LR HR_2X HR_4X",
-    "train_file_path": "/media/server/80SSD/LihuaJian/train",
+    "train_file_path": "/media/server/80SSD/LihuaJian/train/TrainData",
     "?eval_file": "evaluation images",
     "eval_file": "/home/meng/lihu/dataset/Set5"
 }
