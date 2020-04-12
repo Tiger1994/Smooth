@@ -57,7 +57,7 @@ for dataset in datasets:
             model = model.cpu()
 
         start_time = time.time()
-        gt_o = model(im_input)
+        _, _, gt_o = model(im_input)
         elapsed_time = time.time() - start_time
         avg_elapsed_time += elapsed_time
 

@@ -5,13 +5,14 @@ import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from model.residual import Net, L1_Charbonnier_loss
-from data.dataset import DatasetFromFolder
+from data.dataset_ts import DatasetFromFolder
 import math, glob
 import scipy.io as sio
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
 import json
+from model.TSAFN import Combination
 
 setting_file = "setting/opt.json"
 cuda = True
@@ -44,14 +45,15 @@ def main():
     cudnn.benchmark = True
 
     print("===> Loading datasets")
-    file_path = {'In': opt["train_file_path"] + '/In_npy',
-                 'Out': opt["train_file_path"] + '/Out_npy'}
+    file_path = {'Input': opt["train_file_path"] + '/Input_npy',
+                 'S': opt["train_file_path"] + '/S_npy',
+                 'T': opt["train_file_path"] + '/T_npy',
+                 'GT': opt["train_file_path"] + '/GT_npy'}
     train_set = DatasetFromFolder(file_path)
-    training_data_loader = DataLoader(dataset=train_set, num_workers=opt["threads"], batch_size=opt["batchSize"],
-                                      shuffle=True)
+    training_data_loader = DataLoader(dataset=train_set, num_workers=opt["threads"], batch_size=opt["batchSize"], shuffle=True)
 
     print("===> Building model")
-    model = Net()
+    model = Combination(pretrained=False)
 
     print('Generator parameters: ', sum(param.numel() for param in model.parameters()))
     criterion = L1_Charbonnier_loss()
@@ -75,12 +77,12 @@ def main():
 
     print("===> Saving")
     whole_res = pd.DataFrame(
-        data={'loss': loss_list,
-              'best_loss': best_loss},
+        data={'psnr': loss_list,
+              'best_psnr': best_loss},
         index=range(1, opt["nEpochs"] + 1)
     )
     whole_res.to_csv('result/result.csv', index_label='Epoch')
-
+    
     print("===> Game over")
 
 
@@ -92,26 +94,42 @@ def adjust_learning_rate(epoch):
 
 def train(training_data_loader, optimizer, model, criterion, epoch):
     global best_loss
-    lr = adjust_learning_rate(epoch - 1)
+    lr = adjust_learning_rate(epoch-1)
 
     for param_group in optimizer.param_groups:
         param_group["lr"] = lr
     model.train()
-
+    avg_psnr_predicted = 0.0
+    image_list = glob.glob(opt["eval_file"] + "/*.*")
     train_bar = tqdm(training_data_loader)
 
     for iteration, batch in enumerate(train_bar):
-        In, GT = Variable(batch[0], requires_grad=False), Variable(batch[1], requires_grad=False)
+        avg_psnr_predicted = 0.0
+        input, S, T, GT = Variable(batch[0], requires_grad=False), Variable(batch[1], requires_grad=False), \
+                          Variable(batch[2], requires_grad=False), Variable(batch[3], requires_grad=False)
         if cuda:
-            In = In.cuda()
+            input = input.cuda()
+            S = S.cuda()
+            T = T.cuda()
             GT = GT.cuda()
 
-        out = model(In)
+        s_o, t_o, gt_o = model(input)
         optimizer.zero_grad()
 
-        loss_all = criterion(out, GT)
-        loss_all.back_wards()
-        loss = loss_all.item()
+        if epoch <= 100:
+            loss_s = criterion(S, s_o[-1])
+            loss_t = criterion(T, t_o)
+            loss_s.backward()
+            loss_t.backward()
+            loss = loss_s.item()+loss_t.item()
+        else:
+            loss_s = criterion(S, s_o[-1])
+            loss_t = criterion(T, t_o)
+            loss_gt = criterion(GT, gt_o)
+            loss_all = 0.6*loss_gt+0.2*(loss_s+loss_t)
+            loss_all.backward()
+            loss = loss_all.item()
+
         optimizer.step()
 
         train_bar.set_description(desc='%.2f' % (loss))
@@ -119,8 +137,8 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
             save_checkpoint(model, 9999)
             best_loss = loss
     train_bar.close()
-    print("Epoch={}, lr={}, best_loss={:.2f}".format(epoch, lr, best_loss))
-    save_checkpoint(model, epoch - 1)
+    print("Epoch={}, lr={}, best_psnr={:.2f}".format(epoch, lr, best_loss))
+    save_checkpoint(model, epoch-1)
     return loss
 
 
