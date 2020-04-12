@@ -7,8 +7,6 @@ import os
 if __name__ == "__main__":
     file_path = r'/SSD64/Smooth/train/TrainData'
     file_list = [file_path + '/Input',
-                 file_path + '/S',
-                 file_path + '/T',
                  file_path + '/GT']
 
     for file_name in file_list:
