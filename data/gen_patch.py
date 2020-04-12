@@ -5,10 +5,10 @@ import tqdm
 
 
 def main():
-    file_path = r'/SSD64/Smooth/train/GEN'
-    save_path = r'/SSD64/Smooth/train/TrainData'
-    gt_path = file_path+r'/'+'GT'
-    in_path = file_path+r'/'+'In'
+    # file_path = r'/SSD64/Smooth/train/GEN'
+    save_path = '/media/server/80SSD/LihuaJian/train/TrainData'
+    gt_path = '/media/server/80SSD/LihuaJian/train/class5'
+    in_path = '/media/server/80SSD/LihuaJian/train/dataset/dataset/origin_images'
 
     gt_save = save_path + '/' + 'GT'
     input_save = save_path + '/' + 'In'
@@ -18,8 +18,8 @@ def main():
     if not os.path.isdir(input_save):
         os.makedirs(input_save)
 
-    patch_size = 64
-    stride = 64
+    patch_size = 128
+    stride = 32
 
     count = 0
     for name in tqdm.tqdm(os.listdir(gt_path)):

@@ -110,7 +110,7 @@ def train(training_data_loader, optimizer, model, criterion, epoch):
         optimizer.zero_grad()
 
         loss_all = criterion(out, GT)
-        loss_all.back_wards()
+        loss_all.backward()
         loss = loss_all.item()
         optimizer.step()
 

@@ -5,7 +5,7 @@ import scipy.misc as misc
 import os
 
 if __name__ == "__main__":
-    file_path = r'/SSD64/Smooth/train/TrainData'
+    file_path = '/media/server/80SSD/LihuaJian/train'
     file_list = [file_path + '/Input',
                  file_path + '/GT']
 
