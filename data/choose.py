@@ -6,7 +6,7 @@ from PIL import Image
 if __name__ == '__main__':
     input_path = ''
     output_path = ''
-    save_path = ''
+    save_path = '/SSD64/Smooth/train/class5'
     choose_class = '5'
     if not os.path.isdir(save_path):
         os.mkdir(save_path)

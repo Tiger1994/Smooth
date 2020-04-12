@@ -8,13 +8,21 @@ def main():
     file_path = r'/SSD64/Smooth/train/GEN'
     save_path = r'/SSD64/Smooth/train/TrainData'
     gt_path = file_path+r'/'+'GT'
-    in_path = file_path+r'/'+'In'
+    s_path = file_path+r'/'+'S'
+    t_path = file_path+r'/'+'T'
+    input_path = file_path+r'/'+'Input'
 
     gt_save = save_path + '/' + 'GT'
-    input_save = save_path + '/' + 'In'
+    s_save = save_path + '/' + 'S'
+    t_save = save_path + '/' + 'T'
+    input_save = save_path + '/' + 'Input'
 
     if not os.path.isdir(gt_save):
         os.makedirs(gt_save)
+    if not os.path.isdir(s_save):
+        os.makedirs(s_save)
+    if not os.path.isdir(t_save):
+        os.makedirs(t_save)
     if not os.path.isdir(input_save):
         os.makedirs(input_save)
 
@@ -25,9 +33,12 @@ def main():
     for name in tqdm.tqdm(os.listdir(gt_path)):
         gt = Image.open(gt_path + '/' + name)
         gt = np.asarray(gt)
-
-        Input = Image.open(in_path + '/' + name)
-        Input = np.asarray(Input)
+        s = Image.open(s_path + '/' + name)
+        s = np.asarray(s)
+        t = Image.open(t_path + '/' + name)
+        t = np.asarray(t)
+        input = Image.open(input_path + '/' + name)
+        input = np.asarray(input)
 
         row, col = gt.shape[0], gt.shape[1]
 
@@ -37,7 +48,11 @@ def main():
                 count = count + 1
                 gt_patch = Image.fromarray(gt[i:i+patch_size, j:j+patch_size, :])
                 gt_patch.save(gt_save+'/'+patch_name)
-                input_patch = Image.fromarray(Input[i:i + patch_size, j:j + patch_size, :])
+                s_patch = Image.fromarray(s[i:i + patch_size, j:j + patch_size])
+                s_patch.save(s_save + '/' + patch_name)
+                t_patch = Image.fromarray(t[i:i + patch_size, j:j + patch_size])
+                t_patch.save(t_save + '/' + patch_name)
+                input_patch = Image.fromarray(input[i:i + patch_size, j:j + patch_size, :])
                 input_patch.save(input_save + '/' + patch_name)
     a = 0
 
