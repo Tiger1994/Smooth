@@ -16,15 +16,15 @@ cuda = True
 if cuda and not torch.cuda.is_available():
     raise Exception("No GPU found, please run without --cuda")
 
-model_path = '/home/tiger/Smooth/result'
+model_path = '/home/server/LihuaJian/result'
 model_name = 'best_199'
 model = torch.load(model_path+'/'+model_name + '.pth')["model"]
 model.eval()
 
-datasets_path = '/SSD64/Smooth/test'
-datasets = ['1', 'test_article', 'test_01']  # 'test_01', 'test_article',
+datasets_path = '/media/server/80SSD/LihuaJian/test'
+datasets = ['Tdataset']  # 'test_01', 'test_article',
 
-result_path = '/SSD64/Smooth/result' + '/' + model_name
+result_path = '/media/server/80SSD/LihuaJian/result' + '/' + model_name
 results = {}
 
 for dataset in datasets:

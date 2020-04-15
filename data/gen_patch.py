@@ -6,9 +6,9 @@ import tqdm
 
 def main():
     # file_path = r'/SSD64/Smooth/train/GEN'
-    save_path = '/media/server/80SSD/LihuaJian/train/TrainData'
-    gt_path = '/media/server/80SSD/LihuaJian/train/class5'
-    in_path = '/media/server/80SSD/LihuaJian/train/dataset/dataset/origin_images'
+    save_path = '/media/server/80SSD/LihuaJian/train/TrainData490'
+    gt_path = '/media/server/80SSD/LihuaJian/train/490/GT'
+    in_path = '/media/server/80SSD/LihuaJian/train/490/Input'
 
     gt_save = save_path + '/' + 'GT'
     input_save = save_path + '/' + 'In'
@@ -31,8 +31,8 @@ def main():
 
         row, col = gt.shape[0], gt.shape[1]
 
-        for i in range(0, row-stride, stride):
-            for j in range(0, col-stride, stride):
+        for i in range(0, row-patch_size, stride):
+            for j in range(0, col-patch_size , stride):
                 patch_name = '{}.png'.format(count)
                 count = count + 1
                 gt_patch = Image.fromarray(gt[i:i+patch_size, j:j+patch_size, :])

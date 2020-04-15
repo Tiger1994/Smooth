@@ -4,7 +4,7 @@
     "?nEpocks": "number of epochs to train for",
     "nEpochs": 200,
     "?lr": "Learning Rate. Default=1e-4",
-    "lr": 1e-4,
+    "lr": 1e-5,
     "?step": "Sets the learning rate to the initial LR decayed by momentum every n epochs, Default: n=10",
     "step": 200,
     "?start_epoch": "Manual epoch number (useful on restarts)",
