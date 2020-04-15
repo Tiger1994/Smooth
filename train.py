@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 import json
+import torch.nn as nn
 
 setting_file = "setting/opt.json"
 cuda = True
@@ -54,7 +55,7 @@ def main():
     model = Net()
 
     print('Generator parameters: ', sum(param.numel() for param in model.parameters()))
-    criterion = L1_Charbonnier_loss()
+    criterion = nn.MSELoss()
 
     print("===> Setting GPU")
     if cuda:
