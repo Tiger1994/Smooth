@@ -7,6 +7,7 @@ import tqdm
 def main():
     # file_path = r'/SSD64/Smooth/train/GEN'
     save_path = '/media/server/80SSD/LihuaJian/train/TrainData490'
+    
     gt_path = '/media/server/80SSD/LihuaJian/train/490/GT'
     in_path = '/media/server/80SSD/LihuaJian/train/490/Input'
 
