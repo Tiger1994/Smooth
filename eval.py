@@ -18,13 +18,13 @@ if __name__ == '__main__':
         raise Exception("No GPU found, please run without --cuda")
 
     model_path = '/home/server/LihuaJian/result'
-    model_name = 'best_199'
+    model_name = 'best_99'
     model = torch.load(model_path+'/'+model_name + '.pth')["model"]
     model.eval()
 
-    datasets_path = '/media/server/80SSD/LihuaJian/test'
-    GTs_path = ''
-    datasets = ['Tdataset']
+    datasets_path = '/media/server/80SSD/LihuaJian/test/10/Input'
+    GTs_path = '/media/server/80SSD/LihuaJian/test/10/GT'
+    datasets = ['10']
 
     result_path = '/media/server/80SSD/LihuaJian/result' + '/' + model_name
     results = {}
@@ -37,7 +37,7 @@ if __name__ == '__main__':
         if not os.path.exists(save_path):  # 如果路径不存在
             os.makedirs(save_path)
         image_list = glob.glob(path + "/*.*")
-        gt_list = glob.glob(GT_path + '/.*')
+        gt_list = glob.glob(GT_path + '/*.*')
         assert len(gt_list) == len(image_list)
 
         avg_elapsed_time = 0.0
@@ -80,6 +80,11 @@ if __name__ == '__main__':
             gt_o[gt_o < 0] = 0
             gt_o[gt_o > 255.] = 255.
             gt_o = gt_o.astype('uint8')
+
+            gt = gt * 255.
+            gt[gt < 0] = 0
+            gt[gt > 255.] = 255.
+            gt = gt.astype('uint8')
 
             gt_o = np.transpose(gt_o, [1, 2, 0])
             if gray_image:
