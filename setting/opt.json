@@ -2,11 +2,11 @@
     "?batchSize": "training batch size",
     "batchSize": 64,
     "?nEpocks": "number of epochs to train for",
-    "nEpochs": 200,
+    "nEpochs": 100,
     "?lr": "Learning Rate. Default=1e-4",
     "lr": 1e-5,
     "?step": "Sets the learning rate to the initial LR decayed by momentum every n epochs, Default: n=10",
-    "step": 200,
+    "step": 100,
     "?start_epoch": "Manual epoch number (useful on restarts)",
     "start_epoch": 1,
     "?threads": "Number of threads for data loader to use, Default: 1",
@@ -19,7 +19,7 @@
     "pretrained": "",
 
     "?train_file_path": "path to training data, including LR HR_2X HR_4X",
-    "train_file_path": "/media/server/80SSD/LihuaJian/train/TrainData",
+    "train_file_path": "/media/server/80SSD/LihuaJian/train/TrainData490",
     "?eval_file": "evaluation images",
     "eval_file": "/home/meng/lihu/dataset/Set5"
 }
