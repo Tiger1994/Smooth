@@ -45,11 +45,11 @@ class RDB(nn.Module):
 
 
 class Net(BasicModule.basic):
-    def __init__(self,D=5, C=3, G=32, G0=64, kernel_size=3, input_channels=3, out_channels=3):
+    def __init__(self,D=2, C=3, G=32, G0=64, kernel_size=3, input_channels=3, out_channels=3):
         '''
         opts: the system para
         '''
-        super(rdn,self).__init__()
+        super(Net,self).__init__()
         '''
         D: RDB number 20
         C: the number of conv layer in RDB 6
