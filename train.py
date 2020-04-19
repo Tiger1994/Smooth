@@ -4,7 +4,7 @@ import torch.backends.cudnn as cudnn
 import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
-from model.residual import Net, L1_Charbonnier_loss
+from model.RDN import Net
 from data.dataset import DatasetFromFolder
 import math, glob
 import scipy.io as sio
