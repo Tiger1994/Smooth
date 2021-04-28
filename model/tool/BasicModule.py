@@ -1,14 +1,5 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-
-# **********************************************************
-# * Author        : lingteng qiu
-# * Email         : 1259738366@qq.com
-# * Create time   : 2018-08-16 10:45
-# * Last modified : 2018-08-16 10:45
-# * Filename      : BasicModule.py
-# * Description   : this part give you a demo for your project
-# **********************************************************
 import torch
 import torch.optim as optim
 import torch.nn as nn
