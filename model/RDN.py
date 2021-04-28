@@ -1,15 +1,5 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-
-# **********************************************************
-# * Author        : lingteng qiu
-# * Email         : 1259738366@qq.com
-# * Create time   : 2018-08-22 09:54
-# * Last modified : 2018-08-22 09:54
-# * Filename      : RDN.py
-# * Description   : this part for us is realize the RDN model from the paper
-# * all detail you can see from the paper "Residual Dense Network for Image SR"
-# **********************************************************
 from model.tool import BasicModule
 import torch.nn as nn
 import torch
